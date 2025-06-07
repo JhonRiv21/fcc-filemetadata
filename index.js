@@ -1,17 +1,33 @@
 var express = require('express');
 var cors = require('cors');
+const multer = require('multer');
 require('dotenv').config()
 
 var app = express();
 
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use('/public', express.static(process.cwd() + '/public'));
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
+  const file = req.file;
 
+  if (!file) return res.json({ error: 'File not found' });
+
+  res.json({
+    name: file.originalname,
+    type: file.mimetype,
+    size: file.size
+  })
+
+})
 
 
 const port = process.env.PORT || 3000;
