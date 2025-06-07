@@ -42,7 +42,7 @@ Node.js, Express.js, Multer para manejo de archivos
 
 ```bash
 npm install
-npm start
+npm run start
 ```
 
 Servidor disponible en `http://localhost:3000`
